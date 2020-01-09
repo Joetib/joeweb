@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #12dcdc;
+}
+
+header {
+    padding: 30px 10%;
+    color: white;
+    background: #333;
+}
+
+.banner {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.card {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .4);
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.bg-dark {
+    background: #555;
+    color: #999;
+}
