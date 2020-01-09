@@ -40,6 +40,6 @@ class App:
                 response: Response = func(request)
                 return response.make_response()
             except Exception as e:
-                print(e, '\n exception when calling function')
+                print(e, '\n Exception while executing request')
                 response =  Http404(request)
                 return response.make_response()

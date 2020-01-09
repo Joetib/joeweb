@@ -14,7 +14,7 @@ class Response:
         self.start_response = request.start_response
         self.content_type = content_type
         self.response_content = []
-        return self
+        
 
     def make_response(self):
         self.start_response(self.status_code, [('Content-Type', self.content_type)])

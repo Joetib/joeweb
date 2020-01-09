@@ -22,11 +22,12 @@ class Router:
     Holds all routes in a list. When connection comes it is used to check which of those
     paths match the url
     """
+    __slots__ = 'routes'
     def __init__(self, routes:list=None):
-        self.routes:set = set(routes) if routes else set()
+        self.routes:list = list(routes) if routes else []
 
     def add_route(self,  _path: Path):
-        self.routes.add(_path)
+        self.routes.append(_path)
         return True
         
 

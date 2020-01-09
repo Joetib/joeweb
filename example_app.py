@@ -2,9 +2,9 @@
 Simple example
 """
 
-from ..src.app import App
-from ..src.router import Path
-from ..src.response import HttpResponse, RenderResponse, JsonResponse
+from src.app import App
+from src.router import Path
+from src.response import HttpResponse, RenderResponse, JsonResponse
 from wsgiref.simple_server import make_server
 
 

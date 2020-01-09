@@ -38,9 +38,26 @@ class Request:
     """
     The base request object.
     """
-    __slots__ = ["environ", "http_host","http_user_agent","lang","method", "path","host_address", "gateway_interface","server_port", "remote_host,
-        "content_type","content_length","body","query_string","server_protocol","server_software", "start_response","post"]
-        
+    __slots__ = [
+        "environ", 
+        "http_host",
+        "http_user_agent",
+        "lang","method", 
+        "path",
+        "host_address", 
+        "gateway_interface",
+        "server_port", 
+        "remote_host",
+        "content_type",
+        "content_length",
+        "body",
+        "query_string",
+        "server_protocol",
+        "server_software", 
+        "start_response",
+        "post",
+        ]
+
     def __init__(self, environ, start_response):
         self.environ = environ
         self.http_host = environ['HTTP_HOST']
@@ -54,7 +71,6 @@ class Request:
         self.remote_host = environ.get('REMOTE_HOST')
         self.content_type = environ.get('CONTENT_TYPE')
         self.content_length = environ.get('CONTENT_LENGTH')
-       
         self.body = environ.get('BODY')
         self.query_string = environ.get('QUERY_STRING')
         self.server_protocol = environ.get('SEVER_PROTOCOL')
