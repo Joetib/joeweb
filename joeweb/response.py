@@ -1,5 +1,14 @@
-from .request import Request
+from joeweb.request import Request
+import json
 
+# todo: Add more content types for various files
+file_content_types = {
+    'html': 'text/html',
+    'htm':  'text/html',
+    'css':  'text/css',
+    'js':   'text/javascript',
+    'mkv':  'video/mkv',
+}
 
 class Response:
 
@@ -15,39 +24,33 @@ class Response:
         self.content_type = content_type
         self.response_content = []
         
-
     def make_response(self):
         self.start_response(self.status_code, [('Content-Type', self.content_type)])
-        return self.response_content
-            
-
-    def __iter__(self):
-        for i in self.response_content:
-            yield i
-            
+        return self.response_content         
 
 
 class HttpResponse(Response):
     """
     Return pure http response when given a text as content
     """
-    def __init__(self, request: Request, content: str, status_code='200 OK', content_type='text/html'):
+    def __init__(self, request: Request, content, status_code='200 OK', content_type='text/html'):
         super().__init__( request, status_code, content_type)
-        self.response_content.append(content.encode())
+        if type(content) == str:
+            content = content.encode()
+        self.response_content.append(content)
+
 
 class RenderResponse(HttpResponse):
+    """Uses HttpResponse to return http response given a template name and context dict"""
+    # Todo: Implement a way to render dynamic content from the context into templates
 
-    """Uses HttpResponse to return pure http response"""
-
-
-    def __init__(self, request: Request, filename: str, context: dict):
+    def __init__(self, request: Request, filename: str, context: dict = {}):
         try:
             with open(filename, 'r') as f:
                 text = f.read()
         except FileNotFoundError:
             print(f'Error openning file {filename}')
             raise Exception(f'Could not find the file {filename}')
-        text.format(context)
         super().__init__(request, text, '200 OK')
 
 
@@ -56,7 +59,6 @@ class JsonResponse(Response):
     Return pure json response when given a text as content
     """
     def __init__(self, request: Request, content, status_code='200 OK', content_type='application/json'):
-        import json
         content = json.dumps(content)
         super().__init__( request, status_code, content_type)
         self.response_content.append(content.encode())
@@ -64,23 +66,16 @@ class JsonResponse(Response):
 class FileResponse(HttpResponse):
     def __init__(self,  request: Request, filename: str, file_root:str=""):
         try:
-            with open(file_root+filename, 'r') as f:
-                text = f.read()
+            with open(file_root+filename, 'rb') as f:
+                content = f.read()
         except FileNotFoundError:
             print(f'File not found {filename}')
             raise Exception(f'could not find the file {filename}')
-        if filename.endswith('.html') or filename.endswith('.htm'):
-            content_type = 'text/html'
-        elif filename.endswith('.css'):
-            content_type = 'text/css'
-        elif filename.endswith('.js'):
-            content_type = 'text/javascript'
         
-        super().__init__( request, text, '200 OK',content_type )
+        content_type = file_content_types.get(filename.split('.')[-1], 'text/plain')
+        
+        super().__init__( request, content, '200 OK',content_type )
 
-class MemoryFileResponse(HttpResponse):
-    def __init__(self, request:Request, data):
-        super().__init__(request, data, '200 OK', '')
 
 class ErrorResponse(Response):
     def __init__(self, request: Request, error_code: str):

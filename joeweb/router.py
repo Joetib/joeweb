@@ -12,6 +12,12 @@ class Path:
 
     
     def match(self, _path):
+        # function that is used to check whether a url route matches
+        # that of the path.
+        # Todo: Change to support dynamic urls like
+        # /<int:id>/ just like django does so we can extract variables
+        # from urls. 
+        # Tip: You may need to learn regular expressions to match that
         if self.path == _path:
             return True
         return False
@@ -33,9 +39,8 @@ class Router:
 
     def get_route(self, path_):
         for path in self.routes:
-            if path.match(path_):
+            if path.match(path_): # we let the paths themselves check if they match url
                 return path.func
-        print(f'{path_}')
-        raise Exception('Route not found')
+        
 
 

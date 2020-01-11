@@ -1,4 +1,4 @@
-from src.request import Request
+from joeweb.request import Request
 from unittest import TestCase
 from test.utils import start_response, environ
 

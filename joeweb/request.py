@@ -59,6 +59,7 @@ class Request:
         ]
 
     def __init__(self, environ, start_response):
+        """The variables here just hold data extracted from the wsgi environ and the startresponse function"""
         self.environ = environ
         self.http_host = environ['HTTP_HOST']
         self.http_user_agent = environ['HTTP_USER_AGENT']

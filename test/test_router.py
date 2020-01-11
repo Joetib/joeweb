@@ -1,4 +1,4 @@
-from src.router import Router, Path
+from joeweb.router import Router, Path
 
 from unittest import TestCase
 
